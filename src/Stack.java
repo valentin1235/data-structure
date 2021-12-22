@@ -1,6 +1,6 @@
 import java.util.EmptyStackException;
 
-public class Stack {
+public final class Stack {
     private int[] array;
     private final int originalSize;
 
@@ -16,10 +16,10 @@ public class Stack {
 
     public void push(int val) {
         if (this.size() == this.originalSize) {
-            this.array = this.copyArray(this.array, this.originalSize + this.originalSize);
+            this.array = this.extendSize(this.array, this.originalSize + this.originalSize);
         }
         ++this.top;
-        array[this.top] = val;
+        this.array[this.top] = val;
     }
 
     public int pop() {
@@ -30,8 +30,6 @@ public class Stack {
         int popped = this.array[this.top];
         --this.top;
 
-        this.array = this.copyArray(this.array, this.originalSize);
-
         return popped;
     }
 
@@ -39,7 +37,7 @@ public class Stack {
         return this.top + 1;
     }
 
-    private int[] copyArray(int[] array, int newSize) {
+    private int[] extendSize(int[] array, int newSize) {
         int[] newArray = new int[newSize];
         for (int i = 0; i < this.size(); ++i) {
             newArray[i] = array[i];

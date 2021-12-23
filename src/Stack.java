@@ -15,8 +15,8 @@ public final class Stack {
     }
 
     public void push(int val) {
-        if (this.size() == this.originalSize) {
-            this.array = this.extendSize(this.array, this.originalSize + this.originalSize);
+        if (this.size() == array.length) {
+            this.array = this.extendSize(this.array, array.length + this.originalSize);
         }
         ++this.top;
         this.array[this.top] = val;

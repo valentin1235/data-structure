@@ -16,8 +16,8 @@ public final class Queue {
     }
 
     public void push(int val) {
-        if (this.size() == this.originalSize) {
-            this.array = this.extendQueue(this.array, this.originalSize + this.originalSize);
+        if (this.size() == array.length) {
+            this.array = this.extendQueue(this.array, array.length + this.originalSize);
         }
 
         if (this.array.length == 0) {

@@ -6,6 +6,7 @@ public class Program {
         // write your code here
         STACK_TEST();
         QUEUE_TEST();
+        LINKED_LIST_TEST();
     }
 
     public static void STACK_TEST() {
@@ -108,6 +109,55 @@ public class Program {
         } catch (NoSuchElementException e) {
             assert e.getClass().getName().equals("java.util.NoSuchElementException") : e.getClass().getName();
         }
+    }
 
+    public static void LINKED_LIST_TEST() {
+        // add test
+        LinkedList linkedList = new LinkedList();
+        linkedList.addFirst(1);
+        linkedList.addFirst(2);
+        linkedList.addLast(5);
+        assert linkedList.get(0).equals(2) : linkedList.get(0);
+        assert linkedList.get(1).equals(1) : linkedList.get(1);
+        assert linkedList.get(2).equals(5) : linkedList.get(2);
+
+        linkedList.add(1, 3);
+        assert linkedList.get(1).equals(3) : linkedList.get(1);
+        linkedList.add(2, 4);
+        assert linkedList.get(2).equals(4) : linkedList.get(2);
+
+        linkedList.addLast(6);
+        assert linkedList.get(5).equals(6) : linkedList.get(5);
+
+        assert linkedList.get(0).equals(2) : linkedList.get(0);
+        assert linkedList.get(1).equals(3) : linkedList.get(1);
+        assert linkedList.get(2).equals(4) : linkedList.get(2);
+        assert linkedList.get(3).equals(1) : linkedList.get(3);
+        assert linkedList.get(4).equals(5) : linkedList.get(4);
+        assert linkedList.get(5).equals(6) : linkedList.get(5);
+
+        assert linkedList.size() == 6;
+
+
+        // remove test
+        linkedList.remove(3);
+        assert linkedList.get(3).equals(5) : linkedList.get(3);
+
+        linkedList.remove(3);
+        assert linkedList.get(3).equals(6) : linkedList.get(3);
+        assert linkedList.size() == 4 : linkedList.size();
+
+        linkedList.remove(3);
+        assert linkedList.size() == 3 : linkedList.size();
+
+        try {
+            linkedList.get(3);
+        } catch (NoSuchElementException e) {
+            assert e.getClass().getName().equals("java.util.NoSuchElementException");
+        }
+
+        linkedList.remove(1);
+        assert linkedList.get(1).equals(4) : linkedList.get(1);
+        assert linkedList.size() == 2 : linkedList.size();
     }
 }

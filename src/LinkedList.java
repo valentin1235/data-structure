@@ -66,10 +66,6 @@ public class LinkedList {
         return node.data;
     }
 
-    public void remove(int index) {
-        this.removeNode(index);
-    }
-
     public void removeLast() {
         this.remove(this.size - 1);
     }
@@ -78,7 +74,7 @@ public class LinkedList {
         return this.size;
     }
 
-    private void removeNode(int index) {
+    public void remove(int index) {
         if (index == 0) {
             this.first = this.first.next;
         }

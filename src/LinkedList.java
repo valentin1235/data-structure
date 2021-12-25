@@ -70,6 +70,10 @@ public class LinkedList {
         this.removeNode(index);
     }
 
+    public void removeLast() {
+        this.remove(this.size - 1);
+    }
+
     public int size() {
         return this.size;
     }

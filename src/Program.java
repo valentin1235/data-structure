@@ -7,6 +7,7 @@ public class Program {
         STACK_TEST();
         QUEUE_TEST();
         LINKED_LIST_TEST();
+        HASH_TABLE_TEST();
     }
 
     public static void STACK_TEST() {
@@ -159,5 +160,42 @@ public class Program {
         linkedList.remove(1);
         assert linkedList.get(1).equals(4) : linkedList.get(1);
         assert linkedList.size() == 2 : linkedList.size();
+    }
+
+    public static void HASH_TABLE_TEST() {
+        HashTable hashTable = new HashTable(10);
+
+        // add test
+        hashTable.add(1);
+        hashTable.add(1);
+        hashTable.add(1);
+        hashTable.add(2);
+        hashTable.add(2);
+        hashTable.add(2);
+        hashTable.add(3);
+
+        LinkedList val1 = hashTable.get(1);
+        assert val1.get(0).equals(1) : val1.get(0);
+        assert val1.get(1).equals(1) : val1.get(1);
+        assert val1.get(2).equals(1) : val1.get(2);
+
+        LinkedList val2 = hashTable.get(2);
+        assert val2.get(0).equals(2) : val2.get(0);
+        assert val2.get(1).equals(2) : val2.get(1);
+        assert val2.get(2).equals(2) : val2.get(2);
+
+        LinkedList val3 = hashTable.get(3);
+        assert val3.get(0).equals(3) : val3.get(0);
+
+        // remove test
+        hashTable.remove(3);
+        assert hashTable.get(3) == null : hashTable.get(3);
+
+        hashTable.remove(2);
+        try {
+            hashTable.get(2).get(2);
+        } catch (NoSuchElementException e) {
+            assert e.getClass().getName().equals("java.util.NoSuchElementException");
+        }
     }
 }

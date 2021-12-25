@@ -1,4 +1,5 @@
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 public class Program {
@@ -163,39 +164,23 @@ public class Program {
     }
 
     public static void HASH_TABLE_TEST() {
-        HashTable hashTable = new HashTable(10);
+        HashTable<String, Integer> hashTable = new HashTable<>(10);
 
-        // add test
-        hashTable.add(1);
-        hashTable.add(1);
-        hashTable.add(1);
-        hashTable.add(2);
-        hashTable.add(2);
-        hashTable.add(2);
-        hashTable.add(3);
+        // push test
+        hashTable.push("one", 1);
+        hashTable.push("two", 2);
+        hashTable.push("three", 3);
+        hashTable.push("four", 4);
+        hashTable.push("five", 5);
 
-        LinkedList val1 = hashTable.get(1);
-        assert val1.get(0).equals(1) : val1.get(0);
-        assert val1.get(1).equals(1) : val1.get(1);
-        assert val1.get(2).equals(1) : val1.get(2);
+        hashTable.push("one", 1);
 
-        LinkedList val2 = hashTable.get(2);
-        assert val2.get(0).equals(2) : val2.get(0);
-        assert val2.get(1).equals(2) : val2.get(1);
-        assert val2.get(2).equals(2) : val2.get(2);
+        assert hashTable.size() == 5 : hashTable.size();
 
-        LinkedList val3 = hashTable.get(3);
-        assert val3.get(0).equals(3) : val3.get(0);
-
-        // remove test
-        hashTable.remove(3);
-        assert hashTable.get(3) == null : hashTable.get(3);
-
-        hashTable.remove(2);
-        try {
-            hashTable.get(2).get(2);
-        } catch (NoSuchElementException e) {
-            assert e.getClass().getName().equals("java.util.NoSuchElementException");
-        }
+        assert hashTable.get("one") == 1 : hashTable.get("one");
+        assert hashTable.get("two") == 2 : hashTable.get("two");
+        assert hashTable.get("three") == 3 : hashTable.get("three");
+        assert hashTable.get("four") == 4 : hashTable.get("four");
+        assert hashTable.get("five") == 5 : hashTable.get("five");
     }
 }

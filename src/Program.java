@@ -175,12 +175,52 @@ public class Program {
 
         hashTable.push("one", 1);
 
-        assert hashTable.size() == 5 : hashTable.size();
-
         assert hashTable.get("one") == 1 : hashTable.get("one");
         assert hashTable.get("two") == 2 : hashTable.get("two");
         assert hashTable.get("three") == 3 : hashTable.get("three");
         assert hashTable.get("four") == 4 : hashTable.get("four");
         assert hashTable.get("five") == 5 : hashTable.get("five");
+        assert hashTable.size() == 5 : hashTable.size();
+
+        // remove test
+        hashTable.remove("three");
+        assert hashTable.get("one") == 1 : hashTable.get("one");
+        assert hashTable.get("two") == 2 : hashTable.get("two");
+        assert hashTable.get("three") == null : hashTable.get("three");
+        assert hashTable.get("four") == 4 : hashTable.get("four");
+        assert hashTable.get("five") == 5 : hashTable.get("five");
+        assert hashTable.size() == 4;
+
+        hashTable.remove("one");
+        assert hashTable.get("one") == null : hashTable.get("one");
+        assert hashTable.get("two") == 2 : hashTable.get("two");
+        assert hashTable.get("three") == null : hashTable.get("three");
+        assert hashTable.get("four") == 4 : hashTable.get("four");
+        assert hashTable.get("five") == 5 : hashTable.get("five");
+        assert hashTable.size() == 3;
+
+        hashTable.remove("five");
+        assert hashTable.get("one") == null : hashTable.get("one");
+        assert hashTable.get("two") == 2 : hashTable.get("two");
+        assert hashTable.get("three") == null : hashTable.get("three");
+        assert hashTable.get("four") == 4 : hashTable.get("four");
+        assert hashTable.get("five") == null : hashTable.get("five");
+        assert hashTable.size() == 2;
+
+        hashTable.remove("two");
+        assert hashTable.get("one") == null : hashTable.get("one");
+        assert hashTable.get("two") == null : hashTable.get("two");
+        assert hashTable.get("three") == null : hashTable.get("three");
+        assert hashTable.get("four") == 4 : hashTable.get("four");
+        assert hashTable.get("five") == null : hashTable.get("five");
+        assert hashTable.size() == 1;
+
+        hashTable.remove("four");
+        assert hashTable.get("one") == null : hashTable.get("one");
+        assert hashTable.get("two") == null : hashTable.get("two");
+        assert hashTable.get("three") == null : hashTable.get("three");
+        assert hashTable.get("four") == null : hashTable.get("four");
+        assert hashTable.get("five") == null : hashTable.get("five");
+        assert hashTable.size() == 0;
     }
 }

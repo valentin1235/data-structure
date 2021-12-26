@@ -13,15 +13,15 @@ public class HashTable<K, V> {
     }
 
     public HashTable(int size) {
-        @SuppressWarnings({"rawtypes", "unchecked"})
+        @SuppressWarnings({"unchecked"})
         Node<K,V>[] nodes = (Node<K,V>[]) new Node[size];
         this.nodes = nodes;
     }
 
     public void push(K key, V data) {
-        final int hashed = this.toIndex(key);
+        final int index = this.toIndex(key);
 
-        final Node<K, V> node = nodes[hashed];
+        final Node<K, V> node = this.nodes[index];
         if (node != null) {
             if (node.key.equals(key)) {
                 node.value = data;
@@ -43,7 +43,7 @@ public class HashTable<K, V> {
                 }
             }
         } else {
-            this.nodes[hashed] = new Node<>(key, data);
+            this.nodes[index] = new Node<>(key, data);
             this.size++;
         }
     }
@@ -59,18 +59,43 @@ public class HashTable<K, V> {
         if (node.key == key) {
             value = node.value;
         } else if (node.next != null) {
-            Node<K, V> nextNode = node.next;
+            Node<K, V> currentNode = node.next;
             while (true) {
-                 if (nextNode.key.equals(key)) {
-                    value = nextNode.value;
+                if (currentNode == null) {
+                    break;
+                } else if (currentNode.key.equals(key)) {
+                    value = currentNode.value;
                     break;
                 } else {
-                    nextNode = nextNode.next;
+                    currentNode = currentNode.next;
                 }
             }
         }
 
         return value;
+    }
+
+    public void remove(K key) {
+        final int index = this.toIndex(key);
+        Node<K, V> node = this.nodes[index];
+        if (node != null) {
+            if (node.next == null) {
+                this.nodes[index] = null;
+                this.size--;
+            } else {
+                while (true) {
+                    if (node == null) {
+                        break;
+                    } else if (node.next != null && node.next.key.equals(key)) {
+                        node.next = node.next.next;
+                        this.size--;
+                        break;
+                    } else {
+                        node = node.next;
+                    }
+                }
+            }
+        }
     }
 
     public int size() {

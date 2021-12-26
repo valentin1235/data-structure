@@ -55,10 +55,12 @@ public class HashTable<K, V> {
             return null;
         }
 
-        V value = null;
         if (node.key == key) {
-            value = node.value;
-        } else if (node.next != null) {
+            return node.value;
+        }
+
+        V value = null;
+        if (node.next != null) {
             Node<K, V> currentNode = node.next;
             while (true) {
                 if (currentNode == null) {

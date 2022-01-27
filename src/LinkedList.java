@@ -66,14 +66,6 @@ public class LinkedList {
         return node.data;
     }
 
-    public void removeLast() {
-        this.remove(this.size - 1);
-    }
-
-    public int size() {
-        return this.size;
-    }
-
     public void remove(int index) {
         if (index == 0) {
             this.first = this.first.next;
@@ -87,6 +79,14 @@ public class LinkedList {
 
             this.size--;
         }
+    }
+
+    public void removeLast() {
+        this.remove(this.size - 1);
+    }
+
+    public int size() {
+        return this.size;
     }
 
     private Node getNodeOrNull(int index) {

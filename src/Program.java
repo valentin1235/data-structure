@@ -1,5 +1,5 @@
 import java.util.EmptyStackException;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.NoSuchElementException;
 
 public class Program {
@@ -9,6 +9,9 @@ public class Program {
         QUEUE_TEST();
         LINKED_LIST_TEST();
         HASH_TABLE_TEST();
+
+        int a = fibonacci(5);
+
     }
 
     public static void STACK_TEST() {
@@ -222,5 +225,12 @@ public class Program {
         assert hashTable.get("four") == null : hashTable.get("four");
         assert hashTable.get("five") == null : hashTable.get("five");
         assert hashTable.size() == 0;
+    }
+
+    public static int fibonacci(int n) {
+        if (n == 0 | n == 1) {
+            return 1;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }

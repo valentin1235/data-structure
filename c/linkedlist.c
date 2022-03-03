@@ -9,6 +9,7 @@ typedef struct node {
     struct node* next;
 } node_t;
 
+/* static variables and functions */
 static node_t* s_head = NULL;
 static node_t* s_tail = NULL;
 static size_t s_count = 0;
@@ -18,6 +19,21 @@ static int is_empty(void)
     return s_head == NULL && s_tail == NULL;
 }
 
+static node_t* get_node(size_t index)
+{
+    size_t i;
+    node_t* p = s_head;
+    
+    assert(index < s_count);
+
+    for (i = 0; i < index; ++i) {
+        p = p->next;
+    }
+
+    return p;
+}
+
+/* main features */
 void add_last(int v) {
     node_t* node;
 
@@ -57,22 +73,18 @@ void add_first(int v)
 
 void add_at(size_t index, int v)
 {
-    size_t i;
-    node_t* p = s_head;
     node_t* node;
+    node_t* before_node;
     
     assert(index < s_count);
 
+    before_node = get_node(index - 1);
+
     node = malloc(sizeof(node_t));
-
-    for (i = 0; i < index - 1; ++i) {
-        p = p->next;
-    }
-
     node->val =  v;
-    node->next = p->next;
+    node->next = before_node->next;
 
-    p->next = node;
+    before_node->next = node;
     ++s_count;
 }
 
@@ -95,10 +107,8 @@ void remove_first()
 
 void remove_at(size_t index)
 {
-    int i;
-    int before_index = index - 1;
-    node_t* p = s_head;
     node_t* removed;
+    node_t* before_node;
     
     assert(index < s_count);
 
@@ -107,30 +117,14 @@ void remove_at(size_t index)
         return;
     }
 
-    for (i = 0; i < before_index; ++i) {
-        p = p->next;
-    }
+    before_node = get_node(index - 1);
 
-    removed = p->next;
+    removed = before_node->next;
 
-    p->next = p->next->next;
+    before_node->next = before_node->next->next;
 
     free(removed);
     --s_count;
-}
-
-static node_t* get_node(size_t index)
-{
-    size_t i;
-    node_t* p = s_head;
-    
-    assert(index < s_count);
-
-    for (i = 0; i < index; ++i) {
-        p = p->next;
-    }
-
-    return p;
 }
 
 int get_value(size_t index)
@@ -140,11 +134,7 @@ int get_value(size_t index)
     
     assert(index < s_count);
 
-    for (i = 0; i < index; ++i) {
-        p = p->next;
-    }
-
-    return p->val;
+    return get_node(index)->val;
 }
 
 void print_node(void)

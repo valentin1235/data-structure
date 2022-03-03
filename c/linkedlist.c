@@ -102,6 +102,11 @@ void remove_at(size_t index)
     
     assert(index < s_count);
 
+    if (index == 0) {
+        remove_first();
+        return;
+    }
+
     for (i = 0; i < before_index; ++i) {
         p = p->next;
     }

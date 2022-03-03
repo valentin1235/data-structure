@@ -65,5 +65,8 @@ static void linkedlist_test(void)
     remove_last();
     assert(get_value(1) == 31);
 
-    print_node(); /* { 94, 31,  } */
+    remove_at(0);
+    assert(get_value(0) == 31);
+
+    print_node(); /* { 31,  } */
 }

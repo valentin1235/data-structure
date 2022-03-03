@@ -1,0 +1,11 @@
+linkedlist.c:117:16: warning: unused function 'get_node' [-Wunused-function]
+static node_t* get_node(size_t index)
+               ^
+1 warning generated.
+main.c:13:5: warning: // comments are not allowed in this language [-Wcomment]
+    // radix_sort_test();
+    ^
+main.c:19:13: warning: unused function 'queue_test' [-Wunused-function]
+static void queue_test(void)
+            ^
+2 warnings generated.

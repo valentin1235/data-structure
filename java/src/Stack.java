@@ -43,6 +43,8 @@ public final class Stack {
             newArray[i] = array[i];
         }
 
+        super.hashCode()
+
         return newArray;
     }
 }

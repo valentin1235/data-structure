@@ -50,7 +50,6 @@ void add_last(int v) {
     s_tail->next = node;
     s_tail = node;
     ++s_count;
-
 }
 
 void add_first(int v)

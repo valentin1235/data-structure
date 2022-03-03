@@ -69,4 +69,15 @@ static void linkedlist_test(void)
     assert(get_value(0) == 31);
 
     print_node(); /* { 31,  } */
+
+    add_last(1);
+    add_last(1);
+    add_last(1);
+    add_last(1);
+    add_last(1);
+    add_last(1);
+
+    destroy_list();
+
+    print_node(); /* {  } */
 }

@@ -77,6 +77,11 @@ void add_at(size_t index, int v)
     
     assert(index < s_count);
 
+    if (index == s_count - 1) {
+        add_last(v);
+        return;
+    }
+
     before_node = get_node(index - 1);
 
     node = malloc(sizeof(node_t));
@@ -89,7 +94,10 @@ void add_at(size_t index, int v)
 
 void remove_last()
 {
-    remove_at(s_count - 1);
+    node_t* before_tail = get_node(s_count - 2);
+
+    before_tail->next = NULL;
+    s_tail = before_tail;
 }
 
 void remove_first()
@@ -114,6 +122,9 @@ void remove_at(size_t index)
     if (index == 0) {
         remove_first();
         return;
+    } else if (index == s_count - 1) {
+        remove_last();
+        return;
     }
 
     before_node = get_node(index - 1);
@@ -124,6 +135,22 @@ void remove_at(size_t index)
 
     free(removed);
     --s_count;
+}
+
+void destroy_list()
+{
+    node_t* node = s_head;
+    node_t* to_be_removed;
+
+    while (node != NULL) {
+        to_be_removed = node;
+        node = node->next;
+
+        free(to_be_removed);
+    }
+
+    s_head = NULL;
+    s_tail = NULL;
 }
 
 int get_value(size_t index)

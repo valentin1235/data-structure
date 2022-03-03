@@ -11,7 +11,7 @@ typedef struct node {
 
 static node_t* s_head = NULL;
 static node_t* s_tail = NULL;
-static size_t s_count;
+static size_t s_count = 0;
 
 static int is_empty(void)
 {
@@ -20,6 +20,7 @@ static int is_empty(void)
 
 void add_last(int v) {
     node_t* node;
+
     node = malloc(sizeof(node_t));
 
     if (is_empty()) {
@@ -39,8 +40,8 @@ void add_last(int v) {
 void add_first(int v)
 {
     node_t* node;
-    node = malloc(sizeof(node_t));
 
+    node = malloc(sizeof(node_t));
     node->val = v;
 
     if (is_empty()) {
@@ -144,11 +145,11 @@ int get_value(size_t index)
 void print_node(void)
 {
     node_t* p = s_head;
+
     printf("{ ");
     while (p != NULL) {
         printf("%d, ", p->val);
         p = p->next;
     }
-
     printf(" }\n");
 }

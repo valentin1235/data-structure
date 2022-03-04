@@ -92,6 +92,32 @@ void add_at(size_t index, int v)
     ++s_count;
 }
 
+void add_ordered(int v)
+{
+    node_t* node = s_head;
+    node_t* new_node;
+
+    if (node == NULL) {
+        add_first(v);
+        return;
+    }
+
+    while (node->next != NULL && node->next->val < v) {
+        node = node->next;
+    }
+
+    new_node = malloc(sizeof(node_t));
+    new_node->val = v;
+    new_node->next = node->next;
+
+    node->next =new_node;
+    ++s_count;
+
+    if (new_node->next == NULL) {
+        s_tail = new_node;
+    }
+}
+
 void remove_last()
 {
     node_t* before_tail = get_node(s_count - 2);

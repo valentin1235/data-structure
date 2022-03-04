@@ -4,6 +4,7 @@
 void add_last(int n);
 void add_first(int n);
 void add_at(size_t index, int v);
+void add_ordered(int n);
 void remove_last();
 void remove_first();
 void remove_at(size_t index);

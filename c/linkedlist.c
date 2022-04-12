@@ -1,202 +1,134 @@
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
 #include "linkedlist.h"
+#include "utils.h"
 
-typedef struct node {
-    int val;
-    struct node* next;
-} node_t;
-
-/* static variables and functions */
-static node_t* s_head = NULL;
-static node_t* s_tail = NULL;
-static size_t s_count = 0;
-
-static int is_empty(void)
+int insert_ordered(linknode_t** head, int value)
 {
-    return s_head == NULL && s_tail == NULL;
+    linknode_t** pp = head;
+    linknode_t* new_linknode;
+
+    new_linknode = malloc(sizeof(linknode_t));
+    new_linknode->value = value;
+
+    while (*pp != NULL) {
+        if ((*pp)->value > new_linknode->value) {
+            break;
+        }
+        pp = &(*pp)->next;
+    }
+
+    new_linknode->next = *pp;
+    *pp = new_linknode;
+
+    return TRUE;
 }
 
-static node_t* get_node(size_t index)
+int insert_front(linknode_t** head, int value)
 {
+    linknode_t* new_linknode;
+
+    new_linknode = malloc(sizeof(linknode_t));
+    new_linknode->value = value;
+
+    new_linknode->next = *head;
+    *head = new_linknode;
+
+    return TRUE;
+}
+
+int remove_last(linknode_t** head)
+{
+    linknode_t** pp = head;
+
+    if (*head == NULL) {
+        return FALSE;
+    }
+
+    while ((*pp)->next != NULL) {
+        pp = &(*pp)->next;
+    }
+
+    free(*pp);
+    *pp = NULL;
+
+    return TRUE;
+}
+
+int remove_at(linknode_t** head, size_t index)
+{
+    linknode_t** pp = head;
     size_t i;
-    node_t* p = s_head;
-    
-    assert(index < s_count);
+
+    if (head == NULL) {
+        return FALSE;
+    }
+
+    for(i = 0; i < index; ++i) {
+        pp = &(*pp)->next;
+    }
+
+    {
+        linknode_t* next = (*pp)->next;
+        free(*pp);
+        *pp = next;
+    }
+
+    return TRUE;
+}
+
+int remove_value(linknode_t** head, int value)
+{
+    linknode_t** pp = head;
+    while (*pp != NULL) {
+        if ((*pp)->value == value) {
+            linknode_t* next = (*pp)->next;
+            free(*pp);
+            *pp = next;
+            break;
+        }
+        pp = &(*pp)->next;
+    }
+
+    return TRUE;
+}
+
+int get_at(linknode_t** head, size_t index)
+{
+    linknode_t** pp = head;
+    size_t i;
+
+    assert(head != NULL);
 
     for (i = 0; i < index; ++i) {
-        p = p->next;
+        pp = &(*pp)->next;
     }
 
-    return p;
+    return (*pp)->value;
 }
 
-/* main features */
-void add_last(int v) {
-    node_t* node;
 
-    node = malloc(sizeof(node_t));
-
-    if (is_empty()) {
-        add_first(v);
-        return;
-    }
-
-    node->val = v;
-    node->next = NULL;
-
-    s_tail->next = node;
-    s_tail = node;
-    ++s_count;
-}
-
-void add_first(int v)
+void destroy_linkedlist(linknode_t* head)
 {
-    node_t* node;
+    linknode_t* p = head;
 
-    node = malloc(sizeof(node_t));
-    node->val = v;
-
-    if (is_empty()) {
-        s_tail = node;
-        node->next = NULL;
-    } else {
-        node->next = s_head;
-    }
-
-    s_head = node;
-    ++s_count;
-}
-
-void add_at(size_t index, int v)
-{
-    node_t* node;
-    node_t* before_node;
-    
-    assert(index < s_count);
-
-    if (index == s_count - 1) {
-        add_last(v);
-        return;
-    }
-
-    before_node = get_node(index - 1);
-
-    node = malloc(sizeof(node_t));
-    node->val =  v;
-    node->next = before_node->next;
-
-    before_node->next = node;
-    ++s_count;
-}
-
-void add_ordered(int v)
-{
-    node_t* node = s_head;
-    node_t* new_node;
-
-    if (node == NULL) {
-        add_first(v);
-        return;
-    }
-
-    while (node->next != NULL && node->next->val < v) {
-        node = node->next;
-    }
-
-    new_node = malloc(sizeof(node_t));
-    new_node->val = v;
-    new_node->next = node->next;
-
-    node->next =new_node;
-    ++s_count;
-
-    if (new_node->next == NULL) {
-        s_tail = new_node;
+    while(p != NULL) {
+        linknode_t* next = p->next;
+        free(p);
+        p = next;
     }
 }
 
-void remove_last()
+void print_node(linknode_t* head)
 {
-    node_t* before_tail = get_node(s_count - 2);
+    linknode_t* p = head;
 
-    before_tail->next = NULL;
-    s_tail = before_tail;
-}
-
-void remove_first()
-{
-    node_t* removed;
-
-    removed = s_head;
-
-    s_head = s_head->next;
-
-    free(removed);
-    --s_count;
-}
-
-void remove_at(size_t index)
-{
-    node_t* removed;
-    node_t* before_node;
-    
-    assert(index < s_count);
-
-    if (index == 0) {
-        remove_first();
-        return;
-    } else if (index == s_count - 1) {
-        remove_last();
-        return;
-    }
-
-    before_node = get_node(index - 1);
-
-    removed = before_node->next;
-
-    before_node->next = before_node->next->next;
-
-    free(removed);
-    --s_count;
-}
-
-void destroy_list()
-{
-    node_t* node = s_head;
-    node_t* to_be_removed;
-
-    while (node != NULL) {
-        to_be_removed = node;
-        node = node->next;
-
-        free(to_be_removed);
-    }
-
-    s_head = NULL;
-    s_tail = NULL;
-}
-
-int get_value(size_t index)
-{
-    size_t i;
-    node_t* p = s_head;
-    
-    assert(index < s_count);
-
-    return get_node(index)->val;
-}
-
-void print_node(void)
-{
-    node_t* p = s_head;
-
-    printf("{ ");
+    printf("[ ");
     while (p != NULL) {
-        printf("%d, ", p->val);
+        printf("%d, ", p->value);
         p = p->next;
     }
-    printf(" }\n");
+    puts("]");
 }

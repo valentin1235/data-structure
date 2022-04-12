@@ -1,38 +1,26 @@
-#include <stdio.h>
 #include <assert.h>
-#include <string.h>
+#include <stdio.h>
+
 #include "queue.h"
 
-enum { MAX_NUMS = 5 };
-
-static s_nums[MAX_NUMS];
-static s_front = 0;
-static s_back = 0;
-static s_num_count = 0;
-
-void enqueue(int n)
+int enqueue(queue_t* queue, int value)
 {
-    assert(s_num_count < MAX_NUMS);
+    if (queue->count >= SIZE) {
+        return FALSE;
+    }
 
-    s_nums[s_back] = n;
-
-    s_back = (s_back + 1) % MAX_NUMS;
-    ++s_num_count;
     
-    printf("+ enqueue %d\n", s_back);
+
+    queue->list[queue->front++ % SIZE] = value; 
+    ++queue->count;
+
+    return TRUE;
 }
 
-int dequeue(void)
+int dequeue(queue_t* queue)
 {
-    int result;
-    assert(s_num_count > 0);
+    assert(queue->count > 0);
 
-    result = s_nums[s_front];
-
-    s_front = (s_front + 1) % MAX_NUMS;
-    --s_num_count;
-
-    printf("- dequeue %d\n", s_front);
-
-    return result;
+    --queue->count;
+    return queue->list[queue->back++ % SIZE];
 }
